@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 #import matplotlib.pylab as pylab
 
 
-def berlage2(t,f,A,n,alpha,phi,plot=False):
+def berlage2(t,f,A,n,alpha,phi):
     """
     This function generates A Berlage wavelet from a given time array
     It returns a single vector. The time and the Berlage wavelet
