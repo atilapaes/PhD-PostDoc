@@ -12,9 +12,9 @@ Also, the extra information present in SRL dataset is preserved
 
 Part 1 - Similar to the previously developed Proj01_catalog_merger_double_with_MW.py)
 
-Part 2 - Treatment of doubles and plotting in a external folder
+Part 2 - Split the merged catalog into single and doubles
 
-Part 3 - Plot the waveforms and time for the events, export the figures for manual inspection
+Part 3 - For the double catalog: plot the waveforms and time for the events, export the figures for manual inspection
 
 """
 
@@ -29,7 +29,7 @@ catalog_srl_initial['datetime']=catalog_srl_initial['Date']+'T'+catalog_srl_init
 catalog_srl_initial['datetime']=pandas.to_datetime(catalog_srl_initial['datetime']) #Convert the strings generated before in the datetime format used by Pandas
 catalog_srl_initial.drop(catalog_srl_initial.index[2023:],inplace=True) #Used to process just the first part of the dataset (first round of injection)
 catalog_srl_initial['source']='srl' # Creating a column to be label that will identify the sorce identification method
-    
+
 # Catalog ES and treatment
 catalog_es_initial=pandas.read_csv('catalog_es.csv') # Read file
 catalog_es_initial['datetime']=pandas.to_datetime(catalog_es_initial['datetime']) # Convert column with string of datetime to the format of Pandas datetime
@@ -58,10 +58,10 @@ catalog_merged['double_flag']=False #Label for events identified by both methods
 
 # The criterium for considering two consecutives events as the same is that they delay is =< 1.5 seconds
 for index in range(1,len(catalog_merged)):
-       
+
     # New condition: delay between events must be lower that 2 seconds and must be from different catalogs
     if ((catalog_merged.datetime[index] - catalog_merged.datetime[index-1]) < pandas.Timedelta('2 second')
-        and (catalog_merged.source[index] != catalog_merged.source[index-1])):       
+        and (catalog_merged.source[index] != catalog_merged.source[index-1])):
         catalog_merged.at[index,'double_flag'] = True
         catalog_merged.at[index-1,'double_flag'] = True
 
@@ -74,7 +74,7 @@ catalog_merged_double.reset_index(drop=True,inplace=True)
 
 
 #%% Part 3 ###################################################################
-  
+
 ### Header ###################
 
 # This function gets a datetime string and outputs the same of 1 or 2 files containing the waveforms X-seconds around the datetime
@@ -125,9 +125,9 @@ for event_index in tqdm(range(int(len(catalog_merged_double)/2))):
         time_srl=numpy.datetime64(catalog_merged_double.datetime[2*event_index+1])
     elif catalog_merged_double.source[2*event_index+1]=='es':
         time_es=numpy.datetime64(catalog_merged_double.datetime[2*event_index+1])
-    
+
     #print('time es and srl',time_es,time_srl,"\n")
-    
+
     # Plot the waveforms, times for ES and SRL and energy stack
     plot_3c(ms_data=ms_data,time_es=time_es,time_srl=time_srl,output_folder=folder_plots)
 
