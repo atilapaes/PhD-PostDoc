@@ -73,14 +73,16 @@ def cf_es(ms_data):
         es.data += numpy.square(ms_data[index].data)
     return(es)
 
+
 #%% #############################################################################
-def plot_3c(ms_data,time_es,time_srl,output_folder):
+def plot_3cV2(ms_data,block_index,output_folder):
     ms_data=ms_data.normalize()
     print('len ms_data',len(ms_data[0].data))
     time=numpy.arange(numpy.datetime64(ms_data[0].stats.starttime),numpy.datetime64(ms_data[0].stats.endtime)+numpy.timedelta64(int(ms_data[0].stats.delta*1000),'ms'), numpy.timedelta64(int(ms_data[0].stats.delta*1000),'ms'))    
     print('len time',len(time))
     
-    fig = plt.figure(1,figsize=(8,10))
+    fig = plt.figure(1,figsize=(15,10))
+    fig.subplots_adjust(left=0.05,right=0.95, bottom=0.05,top=0.95,wspace=0.1, hspace=0.10)
     gs = gridspec.GridSpec(2, 1, height_ratios=[7, 1]) 
     
     ax1=plt.subplot(gs[0])#(2,1,1)
@@ -88,23 +90,18 @@ def plot_3c(ms_data,time_es,time_srl,output_folder):
         
         # This if is used to use only a single legend of each channel
         if gph_index == 0:
-            ax1.plot(time,gph_index+0.45*ms_data[gph_index].data,'r',lw=0.1,label='Z')
-            ax1.plot(time,gph_index+0.45*ms_data[gph_index+69].data,'g',lw=0.1,label='H1')
-            ax1.plot(time,gph_index+0.45*ms_data[gph_index+2*69].data,'b',lw=0.1,label='H2')
+            ax1.plot_date(time,gph_index+0.45*ms_data[gph_index].data,'r',lw=0.3,label='Z')
+            ax1.plot_date(time,gph_index+0.45*ms_data[gph_index+69].data,'g',lw=0.3,label='H1')
+            ax1.plot_date(time,gph_index+0.45*ms_data[gph_index+2*69].data,'b',lw=0.3,label='H2')
         else:
-            ax1.plot(time,gph_index+0.45*ms_data[gph_index].data,'r',lw=0.1)
-            ax1.plot(time,gph_index+0.45*ms_data[gph_index+69].data,'g',lw=0.1)
-            ax1.plot(time,gph_index+0.45*ms_data[gph_index+2*69].data,'b',lw=0.1)
-        
+            ax1.plot_date(time,gph_index+0.45*ms_data[gph_index].data,'r',lw=0.3)
+            ax1.plot_date(time,gph_index+0.45*ms_data[gph_index+69].data,'g',lw=0.3)
+            ax1.plot_date(time,gph_index+0.45*ms_data[gph_index+2*69].data,'b',lw=0.3)
+         
     ax1.set_yticks(numpy.arange(0,71,2))
     ax1.tick_params(axis='both',labelsize='xx-small')
-    #ax1.xaxis.set_major_formatter(mdates.DateFormatter('%m:%S'))
-    ax1.set_title(str(time_srl))    
-    
-    
-    ax1.axvline(x=time_es,c='r',lw=2,label='ES')
-    ax1.axvline(x=time_srl,c='b',lw=2,label='srl')
-    
+    ax1.set_title('Block index '+ str(block_index))    
+
     ax1.legend(loc='upper left')
     ax1.yaxis.tick_right()    
     ax1.set_ylim(-1,70)
@@ -116,7 +113,7 @@ def plot_3c(ms_data,time_es,time_srl,output_folder):
     ax2.plot(time,es.data,'k',lw=1,label='Energy stack')
     ax2.legend(loc='upper left')
     
-    plt.savefig(output_folder +str(time_srl)+'.jpg',dpi=100,format='jpg')
+    plt.savefig(output_folder +str(block_index)+'.jpg',dpi=300,format='jpg')
     plt.close()
     
     # Clear the memory after saving figure
@@ -124,7 +121,8 @@ def plot_3c(ms_data,time_es,time_srl,output_folder):
     plt.close('all')
     gc.collect()
     
+    print('Plot done')
+    
     return()
+#%%
 
-#plot_3c(ms_data=ms_data,time_es=time_es,time_srl=time_srl,output_folder=folder_plots)        
-#############################################################################
