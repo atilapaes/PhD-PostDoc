@@ -120,7 +120,9 @@ def run_detection(list_days2process):#(day2process):
     
     print('==== Processing done ====')        
 #%%
-run_detection(list_days2process=['2016-11-02',
+run_detection(list_days2process=['2016-11-30'])
+"""
+              ['2016-11-02',
                                 '2016-11-03',
                                 '2016-11-04',
                                 '2016-11-05',
@@ -149,3 +151,4 @@ run_detection(list_days2process=['2016-11-02',
                                 '2016-11-28',
                                 '2016-11-29',
                                 '2016-11-30'])
+"""
