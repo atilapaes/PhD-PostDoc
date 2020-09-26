@@ -419,33 +419,3 @@ def _plot(x, mph, mpd, threshold, edge, valley, ax, ind):
         # plt.grid()
         plt.show()
 #%%
-"""
-def detrend_stack(es,time,samples):
-    
-    Detrend the stacked funtion and replace x< 0 for 0
-    
-    es2=es.copy()
-    
-    
-    
-    es2=es.copy()
-    es3=es.copy()
-    #es2.data=obspy.signal.util.smooth(es2.data,mavg_samples)
-    es2.data=om_ES.cf_moving_avg(es2.data,samples,normalize=False)
-
-    es3.data -= es2.data
-    es3.data =numpy.asarray([x if x>0 else 0 for x in es3])
-    es3.data /=numpy.max(es3.data)
-
-    # De trend plot Very good example in 10-31 01
-
-    plt.figure(2)
-    plt.subplot(2,1,1)
-    plt.plot(time,es,'k',lw=0.5)
-    plt.plot(time,es2,'r')
-    plt.subplot(2,1,2)
-    plt.plot(time,es3,lw=0.5)
-    plt.show()
-
-    return(es3)
-"""

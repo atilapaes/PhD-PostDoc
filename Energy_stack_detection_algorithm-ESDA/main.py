@@ -77,10 +77,7 @@ def run_detection(list_days2process):#(day2process):
             # ES analysis - Threshold chose as % of maximum for 1 hour, interactive for each hour
             print('=== Starting detection')
             print('== Peak detection')
-            mph=io_info.mph
-            mpd=int(io_info.peak_distance)
-                
-            peak_list=aux_functions.detect_peaks(x=es_all_stations.data,mph=mph,mpd=mpd, show=False)
+            peak_list=aux_functions.detect_peaks(x=es_all_stations.data,mph=io_info.mph,mpd=int(io_info.peak_distance), show=False)
             
             #%% With the peak list and the time vector, I ca slice the energy and 
             # 1) save the plots
@@ -120,9 +117,7 @@ def run_detection(list_days2process):#(day2process):
     
     print('==== Processing done ====')        
 #%%
-run_detection(list_days2process=['2016-11-30'])
-"""
-              ['2016-11-02',
+run_detection(list_days2process=['2016-11-02',
                                 '2016-11-03',
                                 '2016-11-04',
                                 '2016-11-05',
@@ -151,4 +146,3 @@ run_detection(list_days2process=['2016-11-30'])
                                 '2016-11-28',
                                 '2016-11-29',
                                 '2016-11-30'])
-"""
